@@ -21,8 +21,9 @@ comp9517_group_project/
 │   │   ├── train_utils.py           # 模型训练与评估工具函数
 │   │   ├── gradcam_utils.py         # Grad-CAM 可视化
 │   │   ├── occlusion_utils.py       # 遮挡测试函数（模型鲁棒性分析）
-│   │   └── demo_dl_method.ipynb     # Notebook 演示完整 DL 流程
-│   └── ml_main.py                   # 脚本入口（运行所有深度模型实验）
+│   └── run_dl_experiment_main.py    # 脚本入口（运行所有深度模型实验）
+└── └── demo_dl_method.ipynb         # Notebook 演示完整 DL 流程
+│
 │
 ├── ML_method/                       # 传统机器学习方法实现
 │   ├── src/
@@ -32,8 +33,8 @@ comp9517_group_project/
 │   │   ├── bow_encoder.py           # 建立视觉词袋并提取 BoW 特征
 │   │   ├── feature_fusion.py        # 颜色直方图提取与增强
 │   │   ├── evaluator.py             # 各项评价指标输出
-│   │   └── demo_sift_lbp.ipynb      # Notebook 演示完整 ML 流程
 │   └── run_experiment_main.py      # 脚本入口（运行全部分类器组合）
+└── └── demo_sift_lbp.ipynb      # Notebook 演示完整 ML 流程
 │
 ├── README.md                        # 项目说明文档（中英双语版本）
 └── *.md                             # 方法/模型说明文件
