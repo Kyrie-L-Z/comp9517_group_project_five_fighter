@@ -89,13 +89,13 @@ comp9517_group_project/
 ### ▶ 运行传统 ML 方法
 ```bash
 cd ML_method
-python run_experiment_main.py
+python run_ml_experiment_main.py
 ```
 
 ### ▶ 运行深度学习 DL 方法
 ```bash
 cd DL_method
-python ml_main.py
+python run_dl_experiment_main.py
 ```
 
 或者直接运行对应的 Jupyter Notebook 交互式执行并展示图像结果。
