@@ -57,7 +57,7 @@ comp9517_group_project/
 
 ## 📊 SIFT vs. LBP + 4种分类器和数据增强对比（完整评估指标）
 
-📋 Markdown Table - BoW Only:
+### 📋 Markdown Table - BoW Only:
 
 | Feature | Model | Accuracy | F1 | Precision | Recall | Test Time (s) | Setting |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -70,7 +70,7 @@ comp9517_group_project/
 | LBP_plain | XGBoost | 40.25% | 0.401 | 0.419 | 0.403 | 0.009 | BoW Only |
 | LBP_plain | KNN | 24.83% | 0.206 | 0.274 | 0.248 | 0.049 | BoW Only |
 
-📋 Markdown Table - With ColorHist + Aug:
+### 📋 Markdown Table - With ColorHist + Aug:
 
 | Feature | Model | Accuracy | F1 | Precision | Recall | Test Time (s) | Setting |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -87,16 +87,37 @@ comp9517_group_project/
 
 ## 📊 深度学习方法评估结果对比（ResNet18 vs. MobileNetV2）
 
-| Scenario                     | Model            | Accuracy |   F1   | Precision | Recall | Train Time (s) |
-|:-----------------------------|:------------------|:---------|:------:|:----------|:-------|----------------:|
-| NormalData                   | resnet18           | 94.58%   | 0.946  | 0.948     | 0.946  | 73.7            |
-| NormalData                   | mobilenet_v2       | 95.17%   | 0.952  | 0.954     | 0.952  | 73.6            |
-| Imbalanced                   | resnet18           | 94.65%   | 0.947  | 0.951     | 0.946  | 116.7           |
-| Imbalanced                   | mobilenet_v2       | 96.16%   | 0.962  | 0.963     | 0.962  | 125.9           |
-| OcclusionTest_Normal_ResNet | resnet_normal      | 82.33%   | 0.827  | 0.876     | 0.823  | N/A             |
-| OcclusionTest_Normal_Mobile | mobilenet_normal   | 82.83%   | 0.844  | 0.910     | 0.828  | N/A             |
-| OcclusionTest_Imb_ResNet    | resnet_imb         | 74.24%   | 0.759  | 0.904     | 0.742  | N/A             |
-| OcclusionTest_Imb_Mobile    | mobilenet_imb      | 73.30%   | 0.769  | 0.920     | 0.733  | N/A             |
+### 📊 Balanced Dataset: Plain vs Augmented
+
+| Model       | Setting        | Accuracy | F1     | Precision | Recall | TrainTime(s) |
+| ----------- | -------------- | -------- | ------ | --------- | ------ | ------------ |
+| ResNet18    | Balanced       | 0.9817   | 0.9816 | 0.9818    | 0.9817 | 2128.1900    |
+| ResNet18    | Balanced + Aug | 0.9779   | 0.9779 | 0.9781    | 0.9779 | 1788.9400    |
+| MobileNetV2 | Balanced       | 0.9754   | 0.9754 | 0.9756    | 0.9754 | 2042.9700    |
+| MobileNetV2 | Balanced + Aug | 0.9800   | 0.9800 | 0.9800    | 0.9800 | 1210.7700    |
+
+---
+
+### 📊 Imbalanced Dataset: Plain vs Augmented
+
+| Model       | Setting          | Accuracy | F1     | Precision | Recall | TrainTime(s) |
+| ----------- | ---------------- | -------- | ------ | --------- | ------ | ------------ |
+| ResNet18    | Imbalanced       | 0.9593   | 0.9592 | 0.9598    | 0.9593 | 512.3300     |
+| ResNet18    | Imbalanced + Aug | 0.9536   | 0.9536 | 0.9553    | 0.9536 | 508.4400     |
+| MobileNetV2 | Imbalanced       | 0.9593   | 0.9593 | 0.9601    | 0.9593 | 505.3200     |
+| MobileNetV2 | Imbalanced + Aug | 0.9688   | 0.9687 | 0.9697    | 0.9688 | 506.8200     |
+
+---
+
+### 🧪 Robustness under Occlusion
+
+| Scenario                      | Model           | Accuracy | F1    | Precision | Recall | TrainTime(s) |
+| ----------------------------- | --------------- | -------- | ----- | --------- | ------ | ------------ |
+| OcclusionTest_ResNet_Plain    | resnet_plain    | 92.67%   | 0.930 | 0.953     | 0.927  | N/A          |
+| OcclusionTest_MobileNet_Plain | mobilenet_plain | 77.38%   | 0.808 | 0.942     | 0.774  | N/A          |
+| OcclusionTest_ResNet_Aug      | resnet_aug      | 89.60%   | 0.870 | 0.939     | 0.850  | N/A          |
+| OcclusionTest_MobileNet_Aug   | mobilenet_aug   | 86.25%   | 0.878 | 0.944     | 0.863  | N/A          |
+
 
 ---
 
