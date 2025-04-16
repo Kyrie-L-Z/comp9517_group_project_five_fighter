@@ -110,3 +110,72 @@ def make_data_loaders(train_paths, train_labels, test_paths, test_labels, class_
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
 
     return train_loader, test_loader
+
+def load_dataset(root_folder="../Aerial_Landscapes", test_ratio=0.2, augment=False, imbalance=False,
+                 reduce_factor=0.1, sample_ratio=1.0, batch_size=32, im_size=224, random_seed=42):
+    """
+    通用入口：支持 normal / augment / imbalance 加载
+
+    返回：
+        train_loader, test_loader, class_names
+    """
+    # 决定是否不平衡
+    if imbalance:
+        # 默认对最后两类进行削减
+        minority_classes = [-2, -1]  # 最后两个类别
+        train_paths, train_labels, test_paths, test_labels, class_names = load_imbalanced_data(
+            root_folder=root_folder,
+            test_ratio=test_ratio,
+            sample_ratio=sample_ratio,
+            reduce_factor=reduce_factor,
+            minority_classes=list(range(len(os.listdir(root_folder)))[-2:]),
+            random_seed=random_seed
+        )
+    else:
+        # Balanced
+        from torchvision.datasets import ImageFolder
+        dataset = ImageFolder(root_folder)
+        file_paths = [s[0] for s in dataset.samples]
+        labels = [s[1] for s in dataset.samples]
+        class_names = dataset.classes
+
+        # 划分
+        indices = list(range(len(file_paths)))
+        random.seed(random_seed)
+        random.shuffle(indices)
+        split = int(len(indices) * (1 - test_ratio))
+        train_idx, test_idx = indices[:split], indices[split:]
+        train_paths = [file_paths[i] for i in train_idx]
+        train_labels = [labels[i] for i in train_idx]
+        test_paths = [file_paths[i] for i in test_idx]
+        test_labels = [labels[i] for i in test_idx]
+
+    # 返回加载器
+    return make_data_loaders(
+        train_paths=train_paths,
+        train_labels=train_labels,
+        test_paths=test_paths,
+        test_labels=test_labels,
+        class_names=class_names,
+        batch_size=batch_size,
+        random_seed=random_seed,
+        im_size=im_size
+    ) + (class_names,)
+
+def load_data_path_only(root_folder="../Aerial_Landscapes", imbalance=False):
+    if imbalance:
+        # 使用不平衡设置
+        train_paths, train_labels, test_paths, test_labels, class_names = load_imbalanced_data(root_folder)
+    else:
+        from torchvision.datasets import ImageFolder
+        dataset = ImageFolder(root_folder)
+        file_paths = [s[0] for s in dataset.samples]
+        labels = [s[1] for s in dataset.samples]
+        class_names = dataset.classes
+
+        from sklearn.model_selection import train_test_split
+        train_paths, test_paths, train_labels, test_labels = train_test_split(
+            file_paths, labels, test_size=0.2, stratify=labels, random_state=42
+        )
+
+    return train_paths, train_labels, test_paths, test_labels, class_names
