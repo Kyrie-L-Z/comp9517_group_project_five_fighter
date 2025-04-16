@@ -33,8 +33,8 @@ comp9517_group_project/
 │   │   ├── bow_encoder.py           # 建立视觉词袋并提取 BoW 特征
 │   │   ├── feature_fusion.py        # 颜色直方图提取与增强
 │   │   ├── evaluator.py             # 各项评价指标输出
-│   └── run_experiment_main.py      # 脚本入口（运行全部分类器组合）
-└── └── demo_sift_lbp.ipynb      # Notebook 演示完整 ML 流程
+│   └── demo_ml_method.py      # 脚本入口（运行全部分类器组合）
+└── └── run_ml_experiment_main.py      # Notebook 演示完整 ML 流程
 │
 ├── README.md                        # 项目说明文档（中英双语版本）
 └── *.md                             # 方法/模型说明文件
@@ -55,18 +55,26 @@ comp9517_group_project/
 
 ---
 
-## 📊 SIFT vs. LBP + 4种分类器对比（完整评估指标）
+## 📊 SIFT vs. LBP + 4种分类器和数据增强对比（完整评估指标）
 
-| Feature | Model         | Accuracy |   F1   | Precision | Recall | Train Time (s) | Test Time (s) |
-|:--------|:--------------|:---------|:------:|:----------|:-------|----------------:|---------------:|
-| SIFT    | SVM_RBF       | 72.75%   | 0.726  | 0.732     | 0.728  |          1.579  |         1.618  |
-| SIFT    | RandomForest  | 72.75%   | 0.723  | 0.730     | 0.728  |          3.669  |         0.035  |
-| **SIFT** | **XGBoost**   | **75.25%** | **0.752** | **0.760**   | **0.752** |      **19.439** |     **0.012** |
-| SIFT    | KNN           | 60.67%   | 0.598  | 0.627     | 0.607  |          0.008  |         0.060  |
-| LBP     | SVM_RBF       | 51.67%   | 0.494  | 0.509     | 0.517  |          1.910  |         1.780  |
-| LBP     | RandomForest  | 66.67%   | 0.661  | 0.662     | 0.667  |          1.961  |         0.040  |
-| LBP     | XGBoost       | 70.08%   | 0.701  | 0.704     | 0.701  |         10.716  |         0.012  |
-| LBP     | KNN           | 33.33%   | 0.311  | 0.372     | 0.333  |          0.004  |         0.057  |
+| Feature | Model | Accuracy | F1 | Precision | Recall | Test Time (s) | Setting |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| SIFT_plain | SVM_RBF | 69.42% | 0.691 | 0.694 | 0.694 | 1.171 | BoW Only |
+| SIFT_plain | RandomForest | 63.08% | 0.618 | 0.621 | 0.631 | 0.035 | BoW Only |
+| SIFT_plain | XGBoost | 66.92% | 0.67 | 0.673 | 0.669 | 0.014 | BoW Only |
+| SIFT_plain | KNN | 55.42% | 0.539 | 0.589 | 0.554 | 0.06 | BoW Only |
+| LBP_plain | SVM_RBF | 41.42% | 0.411 | 0.42 | 0.414 | 0.763 | BoW Only |
+| LBP_plain | RandomForest | 40.83% | 0.402 | 0.407 | 0.408 | 0.065 | BoW Only |
+| LBP_plain | XGBoost | 40.25% | 0.401 | 0.419 | 0.403 | 0.009 | BoW Only |
+| LBP_plain | KNN | 24.83% | 0.206 | 0.274 | 0.248 | 0.049 | BoW Only |
+| SIFT_full | SVM_RBF | 73.83% | 0.737 | 0.742 | 0.738 | 2.629 | With ColorHist + Aug |
+| SIFT_full | RandomForest | 71.08% | 0.704 | 0.716 | 0.711 | 0.04 | With ColorHist + Aug |
+| SIFT_full | XGBoost | 76.50% | 0.766 | 0.774 | 0.765 | 0.019 | With ColorHist + Aug |
+| SIFT_full | KNN | 56.67% | 0.555 | 0.576 | 0.567 | 0.157 | With ColorHist + Aug |
+| LBP_full | SVM_RBF | 58.25% | 0.575 | 0.579 | 0.583 | 2.938 | With ColorHist + Aug |
+| LBP_full | RandomForest | 67.50% | 0.669 | 0.673 | 0.675 | 0.044 | With ColorHist + Aug |
+| LBP_full | XGBoost | 70.83% | 0.708 | 0.711 | 0.708 | 0.013 | With ColorHist + Aug |
+| LBP_full | KNN | 44.58% | 0.433 | 0.454 | 0.446 | 0.127 | With ColorHist + Aug |
 
 ---
 
