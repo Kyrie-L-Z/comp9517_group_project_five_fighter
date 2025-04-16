@@ -57,6 +57,8 @@ comp9517_group_project/
 
 ## 📊 SIFT vs. LBP + 4种分类器和数据增强对比（完整评估指标）
 
+📋 Markdown Table - BoW Only:
+
 | Feature | Model | Accuracy | F1 | Precision | Recall | Test Time (s) | Setting |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 | SIFT_plain | SVM_RBF | 69.42% | 0.691 | 0.694 | 0.694 | 1.171 | BoW Only |
@@ -67,6 +69,11 @@ comp9517_group_project/
 | LBP_plain | RandomForest | 40.83% | 0.402 | 0.407 | 0.408 | 0.065 | BoW Only |
 | LBP_plain | XGBoost | 40.25% | 0.401 | 0.419 | 0.403 | 0.009 | BoW Only |
 | LBP_plain | KNN | 24.83% | 0.206 | 0.274 | 0.248 | 0.049 | BoW Only |
+
+📋 Markdown Table - With ColorHist + Aug:
+
+| Feature | Model | Accuracy | F1 | Precision | Recall | Test Time (s) | Setting |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 | SIFT_full | SVM_RBF | 73.83% | 0.737 | 0.742 | 0.738 | 2.629 | With ColorHist + Aug |
 | SIFT_full | RandomForest | 71.08% | 0.704 | 0.716 | 0.711 | 0.04 | With ColorHist + Aug |
 | SIFT_full | XGBoost | 76.50% | 0.766 | 0.774 | 0.765 | 0.019 | With ColorHist + Aug |
