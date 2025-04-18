@@ -109,6 +109,21 @@ comp9517_group_project/
 
 ---
 
+### Performance on Augmented Classes Only
+
+| Model       | Class        | Setting            | F1     | Precision | Recall  |
+|-------------|--------------|--------------------|--------|-----------|---------|
+| ResNet18    | Residential  | Imbalanced         | 0.8750 | 0.8750    | 0.8750  |
+| ResNet18    | River        | Imbalanced         | 0.7000 | 0.7778    | 0.6364  |
+| ResNet18    | Residential  | Imbalanced + Aug   | 0.7778 | 0.7000    | 0.8750  |
+| ResNet18    | River        | Imbalanced + Aug   | 0.8571 | 0.9000    | 0.8182  |
+| MobileNetV2 | Residential  | Imbalanced         | 0.8235 | 0.7778    | 0.8750  |
+| MobileNetV2 | River        | Imbalanced         | 0.8000 | 0.8889    | 0.7273  |
+| MobileNetV2 | Residential  | Imbalanced + Aug   | 0.8000 | 0.8571    | 0.7500  |
+| MobileNetV2 | River        | Imbalanced + Aug   | 0.9524 | 1.0000    | 0.9091  |
+
+---
+
 ### 🧪 Robustness under Occlusion
 
 | Scenario                      | Model           | Accuracy | F1    | Precision | Recall | TrainTime(s) |
