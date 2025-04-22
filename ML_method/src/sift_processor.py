@@ -1,5 +1,5 @@
 """
-SIFT 特征提取：可选择对图像进行数据增强
+SIFT Feature Extraction: Supports optional image augmentation.
 """
 
 import cv2
@@ -7,12 +7,14 @@ import numpy as np
 
 def extract_sift_descriptors(image_paths, augmentation_fn=None):
     """
-    提取每张图像的SIFT描述符，支持可选的数据增强函数
-    参数：
-        image_paths: 图像路径列表
-        augmentation_fn: 数据增强函数 (image -> image)
-    返回：
-        descriptors_list: 每张图像对应的局部描述符数组
+    Extract SIFT descriptors from each image. Supports optional image augmentation.
+
+    Args:
+        image_paths: List of image file paths.
+        augmentation_fn: Optional augmentation function to apply before extraction (image -> image).
+
+    Returns:
+        descriptors_list: A list of arrays where each element contains the local descriptors of an image.
     """
     sift = cv2.SIFT_create()
     descriptors_list = []
@@ -23,11 +25,11 @@ def extract_sift_descriptors(image_paths, augmentation_fn=None):
             descriptors_list.append(np.array([]))
             continue
 
-        # 可选数据增强
+        # Apply augmentation if provided
         if augmentation_fn is not None:
             img = augmentation_fn(img)
 
-        # 转RGB分3个通道提取SIFT
+        # Convert to RGB and extract SIFT from each channel separately
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         b, g, r = cv2.split(img_rgb)
 

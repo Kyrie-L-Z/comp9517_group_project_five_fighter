@@ -1,5 +1,5 @@
 """
-构建视觉词典（BoW）并将描述符转换为BoW向量
+Build visual dictionary (BoW) and convert descriptors into BoW vectors.
 """
 
 import numpy as np
@@ -7,21 +7,23 @@ from sklearn.cluster import KMeans
 
 def build_visual_dictionary(descriptor_list, cluster_count=300, max_sample=15000, seed=42):
     """
-    使用KMeans聚类生成视觉词典
-    参数：
-        descriptor_list: 每张图像的描述符列表
-        cluster_count: 词典大小
-        max_sample: 用于KMeans的最大描述符数
-        seed: 随机种子
-    返回：
-        KMeans 模型
+    Build a visual dictionary using KMeans clustering.
+
+    Args:
+        descriptor_list: List of descriptors from each image.
+        cluster_count: Number of visual words (dictionary size).
+        max_sample: Maximum number of descriptors to use in KMeans.
+        seed: Random seed.
+
+    Returns:
+        Trained KMeans model.
     """
-    # 汇总所有描述符
+    # Collect all non-empty descriptors
     total_desc = [desc for desc in descriptor_list if len(desc) > 0]
     if len(total_desc) == 0:
         return None
 
-    stacked = np.vstack(total_desc)  # 统一叠加
+    stacked = np.vstack(total_desc)  # Stack all descriptors
 
     if len(stacked) > max_sample:
         indices = np.random.choice(len(stacked), size=max_sample, replace=False)
@@ -33,8 +35,15 @@ def build_visual_dictionary(descriptor_list, cluster_count=300, max_sample=15000
 
 def transform_to_bow(descriptor_list, kmeans_model):
     """
-    将一组描述符列表转换为 BoW 向量矩阵。
-    每个图像的描述符 -> 直方图
+    Convert a list of descriptors into a matrix of BoW vectors.
+    Each image's descriptors are mapped to a histogram over visual words.
+
+    Args:
+        descriptor_list: List of local descriptors for each image.
+        kmeans_model: Trained KMeans model representing the visual vocabulary.
+
+    Returns:
+        A NumPy array of shape (n_images, cluster_count) with BoW feature vectors.
     """
     cluster_count = kmeans_model.n_clusters
     bow_vectors = []
@@ -43,7 +52,7 @@ def transform_to_bow(descriptor_list, kmeans_model):
         hist = np.zeros(cluster_count, dtype=np.float32)
 
         if desc is not None and len(desc) > 0:
-            # 保证 desc 是二维的
+            # Ensure desc is 2D
             if desc.ndim == 1:
                 desc = desc.reshape(1, -1)
 
@@ -51,7 +60,7 @@ def transform_to_bow(descriptor_list, kmeans_model):
             for idx in predictions:
                 hist[idx] += 1
 
-            # 可以加上归一化
+            # Optionally normalize the histogram
             if hist.sum() > 0:
                 hist /= hist.sum()
 

@@ -30,8 +30,8 @@ class CustomImageDataset(Dataset):
 def load_imbalanced_data(root_folder, test_ratio=0.2, sample_ratio=1.0, reduce_factor=0.1, minority_classes=[0],
                          random_seed=42):
     """
-    从root_folder读取图像路径和标签(默认ImageFolder格式),
-    模拟长尾分布: 对指定 minority_classes 类别，保留 reduce_factor 比例.
+    Read image paths and labels from root_folder (default ImageFolder format),
+    Simulate long-tail distribution: keep only `reduce_factor` proportion for specified minority_classes.
     """
     from torchvision.datasets import ImageFolder
     dataset = ImageFolder(root_folder)
@@ -39,17 +39,17 @@ def load_imbalanced_data(root_folder, test_ratio=0.2, sample_ratio=1.0, reduce_f
     labels = [s[1] for s in dataset.samples]
     class_names = dataset.classes
 
-    # 不平衡处理
+    # Imbalance processing
     random.seed(random_seed)
     all_indices = []
-    # 先按全部取
+    # Select all samples initially
     for c in range(len(class_names)):
         idx_c = [i for i, lab in enumerate(labels) if lab == c]
         random.shuffle(idx_c)
         if c in minority_classes:
             keep_num = int(len(idx_c) * reduce_factor)
             idx_c = idx_c[:keep_num]
-        # sample_ratio
+        # Apply sample_ratio
         keep_num2 = int(len(idx_c) * sample_ratio)
         idx_c = idx_c[:keep_num2]
         all_indices.extend(idx_c)
@@ -70,15 +70,15 @@ def load_imbalanced_data(root_folder, test_ratio=0.2, sample_ratio=1.0, reduce_f
 def make_data_loaders(train_paths, train_labels, test_paths, test_labels, class_names,
                       batch_size=32, random_seed=42, im_size=224):
     """
-    1) 定义 transform
-    2) 构建 Dataset
-    3) 构建 WeightedRandomSampler
-    4) 返回 train_loader, test_loader
+    1) Define transforms
+    2) Build Dataset
+    3) Construct WeightedRandomSampler
+    4) Return train_loader and test_loader
     """
     import torch
     from torchvision import transforms
 
-    # 统计训练集各类数量
+    # Count number of samples per class in training set
     from collections import Counter
     label_counter = Counter(train_labels)
     # WeightedRandomSampler
@@ -111,18 +111,19 @@ def make_data_loaders(train_paths, train_labels, test_paths, test_labels, class_
 
     return train_loader, test_loader
 
+
 def load_dataset(root_folder="../Aerial_Landscapes", test_ratio=0.2, augment=False, imbalance=False,
                  reduce_factor=0.1, sample_ratio=1.0, batch_size=32, im_size=224, random_seed=42):
     """
-    通用入口：支持 normal / augment / imbalance 加载
+    General entry: supports loading for normal / augment / imbalance settings
 
-    返回：
+    Returns:
         train_loader, test_loader, class_names
     """
-    # 决定是否不平衡
+    # Decide whether to simulate imbalance
     if imbalance:
-        # 默认对最后两类进行削减
-        minority_classes = [-2, -1]  # 最后两个类别
+        # By default, reduce the last two classes
+        minority_classes = [-2, -1]  # Last two classes
         train_paths, train_labels, test_paths, test_labels, class_names = load_imbalanced_data(
             root_folder=root_folder,
             test_ratio=test_ratio,
@@ -132,14 +133,14 @@ def load_dataset(root_folder="../Aerial_Landscapes", test_ratio=0.2, augment=Fal
             random_seed=random_seed
         )
     else:
-        # Balanced
+        # Balanced setting
         from torchvision.datasets import ImageFolder
         dataset = ImageFolder(root_folder)
         file_paths = [s[0] for s in dataset.samples]
         labels = [s[1] for s in dataset.samples]
         class_names = dataset.classes
 
-        # 划分
+        # Split dataset
         indices = list(range(len(file_paths)))
         random.seed(random_seed)
         random.shuffle(indices)
@@ -150,7 +151,7 @@ def load_dataset(root_folder="../Aerial_Landscapes", test_ratio=0.2, augment=Fal
         test_paths = [file_paths[i] for i in test_idx]
         test_labels = [labels[i] for i in test_idx]
 
-    # 返回加载器
+    # Return data loaders
     return make_data_loaders(
         train_paths=train_paths,
         train_labels=train_labels,
@@ -162,9 +163,10 @@ def load_dataset(root_folder="../Aerial_Landscapes", test_ratio=0.2, augment=Fal
         im_size=im_size
     ) + (class_names,)
 
+
 def load_data_path_only(root_folder="../Aerial_Landscapes", imbalance=False):
     if imbalance:
-        # 使用不平衡设置
+        # Use imbalanced setup
         train_paths, train_labels, test_paths, test_labels, class_names = load_imbalanced_data(root_folder)
     else:
         from torchvision.datasets import ImageFolder

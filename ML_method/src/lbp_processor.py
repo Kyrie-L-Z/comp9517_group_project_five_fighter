@@ -7,17 +7,18 @@ from skimage.io import imread
 
 def extract_lbp_descriptors(image_paths, radius=1, n_points=8, method='uniform', augmentation_fn=None):
     """
-    对图像提取 LBP 特征（每张图像 → 统一长度的 LBP 直方图）
+    Extract LBP (Local Binary Pattern) features from a list of images.
+    Each image is converted into a fixed-length LBP histogram.
 
-    参数：
-        image_paths: 图像路径列表
-        radius: LBP 半径
-        n_points: 采样点数
-        method: LBP 模式（默认 uniform）
-        augmentation_fn: 可选的数据增强函数
+    Args:
+        image_paths: List of image file paths.
+        radius: Radius of the LBP pattern.
+        n_points: Number of sampling points around each pixel.
+        method: LBP method (default is 'uniform').
+        augmentation_fn: Optional augmentation function to apply to each image before LBP.
 
-    返回：
-        descriptors: List[np.ndarray]，每张图像对应一个LBP直方图
+    Returns:
+        descriptors: List[np.ndarray], where each element is an LBP histogram for an image.
     """
     descriptors = []
 
@@ -29,10 +30,10 @@ def extract_lbp_descriptors(image_paths, radius=1, n_points=8, method='uniform',
         gray = rgb2gray(img)
         lbp = local_binary_pattern(gray, P=n_points, R=radius, method=method)
 
-        # 计算 LBP 直方图（统一维度）
+        # Compute LBP histogram (ensure fixed dimension)
         hist, _ = np.histogram(lbp.ravel(), bins=np.arange(0, n_points + 3), range=(0, n_points + 2))
         hist = hist.astype(np.float32)
-        hist /= (hist.sum() + 1e-7)  # 归一化
+        hist /= (hist.sum() + 1e-7)  # Normalize histogram
 
         descriptors.append(hist)
 

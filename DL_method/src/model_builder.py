@@ -4,7 +4,7 @@ from torchvision import models
 
 def create_model(model_name="resnet18", num_classes=5, pretrained=True):
     """
-    目前支持: resnet18 / mobilenet_v2
+    resnet18 / mobilenet_v2
     """
     if model_name == "resnet18":
         model = models.resnet18(pretrained=pretrained)

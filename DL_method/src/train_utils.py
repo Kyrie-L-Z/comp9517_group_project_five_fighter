@@ -16,7 +16,7 @@ from sklearn.metrics import (
     confusion_matrix
 )
 
-# === 训练一个 epoch ===
+# === Train for one epoch ===
 def train_one_epoch(model, dataloader, optimizer, criterion, device):
     model.train()
     total_loss, total_correct, total_samples = 0, 0, 0
@@ -40,7 +40,7 @@ def train_one_epoch(model, dataloader, optimizer, criterion, device):
     return avg_loss, acc
 
 
-# === 验证模型性能 ===
+# === Evaluate model performance ===
 @torch.no_grad()
 def evaluate(model, dataloader, criterion, device):
     model.eval()
@@ -65,7 +65,7 @@ def evaluate(model, dataloader, criterion, device):
     return avg_loss, acc, np.array(all_preds), np.array(all_labels)
 
 
-# === 完整训练 + 验证流程 ===
+# === Full training + evaluation pipeline ===
 def train_and_evaluate_model(model, train_loader, val_loader, device, class_names, label="model", epochs=5):
     import torch.nn as nn
     import torch.optim as optim
@@ -84,7 +84,7 @@ def train_and_evaluate_model(model, train_loader, val_loader, device, class_name
     train_time = time.time() - start_time
     print(f"✅ Finished Training {label} in {train_time:.2f} seconds.\n")
 
-    # === 验证模型 ===
+    # === Validate model ===
     val_loss, val_acc, all_preds, all_labels = evaluate(model, val_loader, criterion, device)
 
     print("📊 Classification Report:")
@@ -102,7 +102,7 @@ def train_and_evaluate_model(model, train_loader, val_loader, device, class_name
     plt.tight_layout()
     plt.show()
 
-    # === 返回评分指标 ===
+    # === Return evaluation metrics ===
     return {
         "accuracy": round(accuracy_score(all_labels, all_preds), 4),
         "precision": round(precision_score(all_labels, all_preds, average='weighted'), 4),
