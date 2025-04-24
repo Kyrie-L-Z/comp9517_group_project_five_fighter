@@ -15,7 +15,7 @@ This project implements **two** approaches for remote‑sensing image classifica
 ```text
 comp9517_group_project/
 │
-├── Aerial_Landscapes/               # Dataset (already organised by class)
+├── Aerial_Landscapes/               # Dataset (already organised by class, you can modify this to your own dataset)
 │
 ├── DL_method/                       # Deep‑learning implementation
 │   ├── src/
