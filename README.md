@@ -150,7 +150,7 @@ Or open the corresponding Jupyter notebooks for interactive execution and visual
 
 ## 👥 Authors
 
-*Zhi Li & Group Five Fighters* · COMP9517 T1 2025
+*Zhi Li & Group Five Fighters:Chixin Zhang,Xiaodi Chen,Peng Liu, Qihui Ren* · COMP9517 T1 2025
 
 ---
 
